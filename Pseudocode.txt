@@ -73,7 +73,7 @@ IF 'quantity' less than or equal 0
 ELSE
     return 0
 
-CALL showProduct()
+CALL showProduct() 
 CALL selectedProduct(2)
 STORE 'quantity' with 2
 CALL calculate()
