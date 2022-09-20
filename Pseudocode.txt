@@ -1,0 +1,79 @@
+READ AND WRITE 'product' with array record
+READ AND WRITE 'selectedProduct' with array record
+READ AND WRITE 'quantity' with number
+READ AND WRITE 'addQuantity' with boolean false
+READ AND WRITE 'reduceQuantity' with boolean false
+READ AND WRITE 'total' with number
+
+STORE 'product' with [
+    {
+        id: 1,
+        productName: 'Product 1',
+        productPrice: 10000
+    },
+    {
+        id:2,
+        productName: 'Product 2',
+        productPrice: 5000
+    },
+    {
+        id:3,
+        productName: 'Product 3',
+        productPrice: 2000
+    },    
+]
+
+PROCEDURE showProduct()
+    FOR i in 'product'
+        PRINT product[i].productName
+        PRINT product[i].productPrice
+    END FOR
+END PROCEDURE
+
+FUNCTION addQuantityFunction()
+    STORE 'quantity' with 'quantity' + 1
+    RETURN 'quantity'
+END FUNCTION
+
+FUNCTION reduceQuantityFunction()
+    STORE 'quantity' with 'quantity' - 1
+    RETURN 'quantity'
+END FUNCTION
+
+IF 'addQuantity' equal true
+    addQuantityFunction()
+ELSE IF 'reduceQuantity' equal true
+    reduceQuantityFunction()
+ELSE
+    return 0
+
+PROCEDURE selectProduct(productId)
+    WHILE 'product.id' equal productId
+    DO STORE 'selectedProduct' with [{
+        id: product.id
+        productName: product.productName,
+        productPrice: product.productPrice,     
+        quantity: quantity   
+    }]
+END PROCEDURE
+
+FUNCTION calculate()
+    IF selectedProduct.length less than 2 AND selectedProduct.length more than 0
+        STORE 'total' with product[0].productPrice * quantity
+        PRINT 'total'
+    ELSE
+        FOR x in selectedProduct
+            STORE 'total' with selectedProduct[x].productPrice * selectedProduct[x].quantity
+            PRINT 'total'
+        END FOR
+END FUNCTION
+
+IF 'quantity' less than or equal 0
+    STORE 'quantity' with 'quantity' + 1
+ELSE
+    return 0
+
+CALL showProduct() 
+CALL selectedProduct(2)
+STORE 'quantity' with 2
+CALL calculate()
